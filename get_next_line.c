@@ -46,7 +46,6 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
 	str = read_str(fd, str);
-	sleep(100);
 	if (!str)
 		return (0);
 	line = ft_find(str);
