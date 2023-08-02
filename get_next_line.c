@@ -6,7 +6,7 @@
 /*   By: mnazarya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 14:51:27 by mnazarya          #+#    #+#             */
-/*   Updated: 2023/02/28 08:48:41 by mnazarya         ###   ########.fr       */
+/*   Updated: 2023/08/02 18:38:04 by mnazarya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*get_next_line(int fd)
 	static char	*str;
 
 	line = 0;
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
 		return (0);
 	str = read_str(fd, str);
 	if (!str)
