@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mnazarya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/01 14:51:36 by mnazarya          #+#    #+#             */
-/*   Updated: 2023/08/02 18:38:01 by mnazarya         ###   ########.fr       */
+/*   Created: 2023/02/01 14:51:27 by mnazarya          #+#    #+#             */
+/*   Updated: 2026/03/04 15:22:53 by mnazarya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,37 +23,36 @@ char	*read_str(int fd, char *s)
 		n = read(fd, buf, BUFFER_SIZE);
 		if (n == -1)
 		{
-			free(buf);
-			return (0);
+			free(s);
+			s = NULL;
+			return (free(buf), NULL);
 		}
 		buf[n] = '\0';
 		if (n == 0)
 			break ;
 		s = ft_strjoin(s, buf);
+		if (!s)
+			return (NULL);
 		if (ft_strchr(s, '\n'))
 			break ;
 	}
-	free(buf);
-	return (s);
+	return (free(buf), s);
 }
 
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*str[OPEN_MAX];
+	static char	*str[OPEN_MAX] = {NULL};
 
-	line = 0;
+	line = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0) < 0)
-		return (0);
+		return (NULL);
 	str[fd] = read_str(fd, str[fd]);
 	if (!str[fd])
-		return (0);
+		return (NULL);
 	line = ft_find(str[fd]);
 	str[fd] = ft_remainder(str[fd]);
 	if (line && !line[0])
-	{
-		free(line);
-		return (0);
-	}
+		return (free(line), 0);
 	return (line);
 }

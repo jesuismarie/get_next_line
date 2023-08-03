@@ -32,7 +32,7 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
 	if (!str)
-		return (0);
+		return (free(s1), NULL);
 	i = 0;
 	while (s1 && s1[i])
 	{
@@ -43,8 +43,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	while (s2 && s2[j])
 		str[i++] = s2[j++];
 	str[i] = '\0';
-	free(s1);
-	return (str);
+	return (free(s1), str);
 }
 
 char	*ft_strchr(char *s, int c)
@@ -53,12 +52,12 @@ char	*ft_strchr(char *s, int c)
 
 	b = (char)c;
 	if (!s)
-		return (0);
+		return (NULL);
 	while (*s && *s != b)
 		s++;
 	if (*s == b)
 		return ((char *)s);
-	return (0);
+	return (NULL);
 }
 
 char	*ft_find(char *s)
@@ -68,12 +67,15 @@ char	*ft_find(char *s)
 
 	i = 0;
 	if (!s)
-		return (0);
+		return (NULL);
 	while (s[i] && s[i] != '\n')
 		i++;
-	str = (char *)malloc(sizeof(char) * (i + 2));
+	if (s[i] == '\n')
+		str = (char *)malloc(sizeof(char) * (i + 2));
+	else
+		str = (char *)malloc(sizeof(char) * (i + 1));
 	if (!str)
-		return (0);
+		return (free(s), NULL);
 	i = -1;
 	while (s[++i] && s[i] != '\n')
 		str[i] = s[i];
@@ -94,21 +96,17 @@ char	*ft_remainder(char *s)
 
 	i = 0;
 	if (!s)
-		return (0);
+		return (NULL);
 	while (s[i] && s[i] != '\n')
 		i++;
 	if (s[i] == '\0')
-	{
-		free(s);
-		return (0);
-	}
+		return (free(s), NULL);
 	str = (char *)malloc(sizeof(char) * (ft_strlen(s) - i));
 	if (!str)
-		return (0);
+		return (NULL);
 	j = 0;
 	while (s[i] && s[++i])
 		str[j++] = s[i];
 	str[j] = '\0';
-	free(s);
-	return (str);
+	return (free(s), str);
 }
